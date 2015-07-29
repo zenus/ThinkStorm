@@ -1,0 +1,53 @@
+<idea-plugin version="2">
+  <id>thinkphp-complete</id>
+  <name>thinkphp-complete</name>
+  <version>0.1</version>
+  <vendor email="625305505@qq.com" url="https://github.com/zenus/ThinkStorm"></vendor>
+
+  <description><![CDATA[
+        <p>Thinkphp framework integration for PhpStorm.</p>
+        <br/>
+        <b>Provides:</b>
+        <ul>
+        <li>References to class file from D(),M() function</li>
+        <li>D(),M() function autocomplete and quick-create.</li>
+        </ul>
+    ]]></description>
+
+  <change-notes><![CDATA[
+        <p>This is just a preliminary version, welcome to the comments, I will try to enrich the functionality of the plugin</p>
+    ]]>
+  </change-notes>
+
+  <!-- please see https://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+  <idea-version since-build="131"/>
+
+  <!-- please see https://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+  <depends>com.jetbrains.php</depends>
+    <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+    <php.typeProvider2 implementation="com.thinkphp.ThinkphpDFunctionProvider"/>
+    <completion.contributor language="PHP" implementationClass="com.thinkphp.ThinkphpDFunctionProvider"/>
+  </extensions>
+  <application-components>
+    <!-- Add your application components here -->
+  </application-components>
+
+  <project-components>
+    <!-- Add your project components here -->
+    <component>
+      <implementation-class>com.thinkphp.CompleteProjectComponent</implementation-class>
+    </component>
+  </project-components>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+
+</idea-plugin>
