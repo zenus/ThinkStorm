@@ -4,9 +4,8 @@ package com.thinkphp;
  */
 
 import com.intellij.openapi.project.Project;
+import com.thinkphp.SelfStaticFactoryTypeProvider;
 import com.intellij.openapi.vfs.*;
-import com.thinkphp.CompleteProjectComponent;
-import com.thinkphp.ThinkphpDFunctionProvider;
 import com.intellij.psi.*;
 import java.io.File;
 import java.io.FileFilter;
@@ -17,6 +16,7 @@ public class MetaFileListener extends VirtualFileAdapter{
 
     private static final String META_FILE = ".phpstorm.meta.php";
     protected Project _project;
+    private boolean lock = false;
 
     public MetaFileListener(Project project) {
         this._project = project;
@@ -30,6 +30,19 @@ public class MetaFileListener extends VirtualFileAdapter{
         this.refreshMetaFile(event);
     }
 
+    public void contentsChanged(VirtualFileEvent event) {
+        if(isModelFile(event)){
+            File dir = new  File(this._project.getBasePath());
+            File normalFile = findMetaFile(dir);
+            if(normalFile == null && !lock)
+            {
+                lock = true;
+                com.thinkphp.CompleteProjectComponent.createMetaFile(this._project);
+                lock = false;
+            }
+        }
+    }
+
     private void refreshMetaFile(VirtualFileEvent event)
     {
         if(isModelFile(event)){
@@ -39,12 +52,14 @@ public class MetaFileListener extends VirtualFileAdapter{
             {
                 VirtualFile  virFile = LocalFileSystem.getInstance().findFileByIoFile(normalFile);
                  PsiManager.getInstance(this._project).findFile(virFile).delete();
-                ThinkphpDFunctionProvider.createMetaFile(this._project);
+               com.thinkphp.CompleteProjectComponent.createMetaFile(this._project);
             }
         }
     }
     protected boolean isModelFile(VirtualFileEvent event) {
-        return event.getFileName().contains("Model.class.php") && event.getParent() != null && event.getParent().getName().contains("Model");
+        return (event.getFileName().contains("Model.class.php") && event.getParent() != null && event.getParent().getName().contains("Model"))
+              || (event.getFileName().contains("Logic.class.php") && event.getParent() != null && event.getParent().getName().contains("Logic"))
+              ||(event.getFileName().contains("Service.class.php") && event.getParent() != null && event.getParent().getName().contains("Service"));
     }
 
     private  File  findMetaFile(File root)

@@ -1,7 +1,7 @@
 <idea-plugin version="2">
-  <id>thinkphp-complete</id>
-  <name>thinkphp-complete</name>
-  <version>0.1</version>
+  <id>ThinkStorm</id>
+  <name>ThinkStorm</name>
+  <version>0.0.3</version>
   <vendor email="625305505@qq.com" url="https://github.com/zenus/ThinkStorm"></vendor>
 
   <description><![CDATA[
@@ -15,7 +15,28 @@
     ]]></description>
 
   <change-notes><![CDATA[
-        <p>This is just a preliminary version, welcome to the comments, I will try to enrich the functionality of the plugin</p>
+
+        <p>
+            <span>0.0.2</span>
+            <ul>
+                <li>change name <strong>php-complete</strong> to <strong>ThinkStorm</strong></li>
+                <li>support for phpstorm 9</li>
+                <li>compiled by jdk6.0</li>
+            </ul>
+        </p>
+          <p>
+            <span>0.0.3</span>
+            <ul>
+                <li>To support D('xxx','Logic') you need define function
+                 like this:</li>
+                  <li>function DL($logic){ return D($logic,'Logic');}</li>
+
+                  <li>function DS($service){ return D($service,'Service');}</li>
+
+                  <li>then get object of class xxxxLogic and enjoy all the
+                  convenience as use D function</li>
+                <ul>
+        </p>
     ]]>
   </change-notes>
 
@@ -28,12 +49,14 @@
   <depends>com.intellij.modules.lang</depends>
   -->
   <depends>com.jetbrains.php</depends>
-    <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.platform</depends>
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
-    <php.typeProvider2 implementation="com.thinkphp.ThinkphpDFunctionProvider"/>
-    <completion.contributor language="PHP" implementationClass="com.thinkphp.ThinkphpDFunctionProvider"/>
+      <!--<php.typeProvider2 implementation="com.thinkphp.SelfStaticFactoryTypeProvider"/>-->
+      <completion.contributor language="PHP" implementationClass="com.thinkphp.SelfStaticFactoryTypeProvider"/>
+      <!--<documentationProvider implementation="com.magicento.extensions.SelfDocumentationProvider"-->
+                             <!--id=".phpstorm.meta.php"/>-->
   </extensions>
   <application-components>
     <!-- Add your application components here -->
